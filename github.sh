@@ -8,9 +8,7 @@
 #
 
 set -e
-
 set -o pipefail
-
 
 function get_realpath() {
 
@@ -26,7 +24,6 @@ function get_realpath() {
 	echo $link
 	
     return 0 # success
-
 }
 
 
