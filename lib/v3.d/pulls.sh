@@ -5,10 +5,21 @@
 
 task_list() {
   # http://developer.github.com/v3/pulls/#list-pull-requests
-  local owner=$1 repo=$2
+  local owner=$1 repo=$2 state=$3 page=$4
 
   call_api -X GET \
-   $(base_uri)/repos/${owner}/${repo}/pulls?state=${state:-open}
+    "$(base_uri)/repos/${owner}/${repo}/pulls?$(query_string \
+    $(add_param state         string optional) \
+    $(add_param page          string optional) \
+  )"
+}
+
+task_diff() {
+  # http://developer.github.com/v3/pulls/#get-a-single-pull-request
+  local owner=$1 repo=$2 number=$3
+
+  call_api -X GET \
+   $(base_uri)/repos/${owner}/${repo}/pulls/${number}/files
 }
 
 task_get() {
