@@ -5,13 +5,22 @@
 
 task_list() {
   # http://developer.github.com/v3/pulls/#list-pull-requests
-  local owner=$1 repo=$2 state=$3 page=$4
+  local owner=$1 repo=$2 state=$3 page=$4 
 
   call_api -X GET \
     "$(base_uri)/repos/${owner}/${repo}/pulls?$(query_string \
     $(add_param state         string optional) \
     $(add_param page          string optional) \
   )"
+}
+
+task_search() {
+  # 'https://api.github.com:443/search/issues?q=is:pr+state:open+repo:xx+head:feature/xxw'
+  local owner=$1 repo=$2 state=$3 head=$4
+
+  call_api -X GET \
+    "$(base_uri)/search/issues?q=is:pr+state:$state+repo:$owner/$repo+head:$head"
+
 }
 
 task_diff() {
