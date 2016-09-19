@@ -11,6 +11,15 @@ task_list() {
    $(base_uri)/repos/${owner}/${repo}/pulls?state=${state:-open}
 }
 
+task_search() {
+  # '/search/issues?q=is:pr+state:open+repo:xx+head:feature/xxw'
+  local owner=$1 repo=$2 state=$3 head=$4
+
+  call_api -X GET \
+    "$(base_uri)/search/issues?q=is:pr+state:${state:-open}+repo:$owner/$repo+head:$head"
+
+}
+
 task_get() {
   # http://developer.github.com/v3/pulls/#get-a-single-pull-request
   local owner=$1 repo=$2 number=$3
