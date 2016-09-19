@@ -19,7 +19,7 @@ task_search() {
   local owner=$1 repo=$2 state=$3 head=$4
 
   call_api -X GET \
-    "$(base_uri)/search/issues?q=is:pr+state:$state+repo:$owner/$repo+head:$head"
+    "$(base_uri)/search/issues?q=is:pr+state:${state:-open}+repo:$owner/$repo+head:$head"
 
 }
 

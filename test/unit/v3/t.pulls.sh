@@ -28,6 +28,12 @@ function test_list() {
   assertEquals 0 $?
 }
 
+function test_search() {
+  extract_args ${namespace} search
+  run_cmd ${COMMAND_ARGS}
+  assertEquals 0 $?
+}
+
 function test_get() {
   extract_args ${namespace} get
   run_cmd ${COMMAND_ARGS}
