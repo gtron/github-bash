@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 owner=${2:-Wallapop}
 repo=${1:-WallapopBackend}
@@ -6,8 +6,12 @@ page=${3:-}
  
  
 function listPRsWithStats {
- 
-   github.sh pulls list $owner $repo closed $page   | jsonv number,user.login,head.label,base.label,state,created_at,closed_at,merged_at,head.repo.name,comments,review_comments,commits,additions,deletions,changed_files | tr , "\t"
+
+# >&2 echo -e "github.sh pulls list $owner $repo closed $page | jq -M -r -c '.[] | { number , login: .user.login, from: .head.label, to: .base.label, state, created_at, closed_at, merged_at, repo: .head.repo.name, commends, review_comments, commits, additions, deletions, changed_file }  ' | sed 's/\"[^\"]\+\"://g;s/\"\?,\"\?/\t/g;s/^{//;s/}$//'"
+
+#   github.sh pulls list $owner $repo closed $page   | jsonv number,user.login,head.label,base.label,state,created_at,closed_at,merged_at,head.repo.name,comments,review_comments,commits,additions,deletions,changed_files | tr , "\t"
+#   github.sh pulls list $owner $repo closed $page | jq -M -r -c '.[] | { number , login: .user.login, from: .head.label, to: .base.label, state, created_at, closed_at, merged_at, repo: .head.repo.name, comments, review_comments, commits, additions, deletions, changed_file }  ' | sed 's/\"[^\"]\+\"://g;s/\"\?,\"\?/\t/g;s/^{//;s/}$//'
+   github.sh pulls list $owner $repo closed $page | jq -M -r -c '.[] | { number , login: .user.login, from: .head.label, to: .base.label, state, created_at, closed_at, merged_at, repo: .head.repo.name  }  ' | sed 's/\"[^\"]\+\"://g;s/\"\?,\"\?/\t/g;s/^{//;s/}$//'
  
 }
 
@@ -17,6 +21,8 @@ function getPRStatsFromDetail {
     
     [ -z $idPR ] && echo "Error ... please specify the PullRequest ID !" && exit -1
     
+#>&2 echo "Retrieving PR $idPR"
+
     local X=$( github.sh pulls get $owner $repo $idPR | grep "^  \"\(comments\"\|review_comments\"\|commits\"\|additions\|deletions\|changed_files\)" | sed "s/.*: //;s/ //g" ); 
     local A=$(echo $X); 
     
