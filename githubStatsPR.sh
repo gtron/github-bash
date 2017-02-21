@@ -7,7 +7,7 @@ page=${3:-}
  
 function listPRsWithStats {
  
-   github.sh pulls list $owner $repo closed $page   | jsonv number,user.login,head.label,state,created_at,closed_at,merged_at,head.repo.name,comments,review_comments,commits,additions,deletions,changed_files | tr , "\t"
+   github.sh pulls list $owner $repo closed $page   | jsonv number,user.login,head.label,base.label,state,created_at,closed_at,merged_at,head.repo.name,comments,review_comments,commits,additions,deletions,changed_files | tr , "\t"
  
 }
 

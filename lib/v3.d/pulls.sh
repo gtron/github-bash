@@ -16,10 +16,10 @@ task_list() {
 
 task_search() {
   # 'https://api.github.com:443/search/issues?q=is:pr+state:open+repo:xx+head:feature/xxw'
-  local owner=$1 repo=$2 state=$3 head=$4
+  local owner=$1 repo=$2 state=$3 commitId=$4
 
   call_api -X GET \
-    "$(base_uri)/search/issues?q=is:pr+state:${state:-open}+repo:$owner/$repo+head:$head"
+    "$(base_uri)/search/issues?q=is:pr+state:${state:-open}+repo:$owner/$repo+$commitId"
 
 }
 
